@@ -10,6 +10,7 @@
   async function addFiles(fileList) {
     const files = [...fileList];
     if (!files.length) return;
+    hideNotice();
     setBusy(true);
     const errors = [];
     const newBundles = [];
@@ -183,8 +184,22 @@
   }
 
   // ---------- misc UI ----------
-  function showNotice(msg, kind) { const n = $('notice'); n.textContent = msg; n.className = `notice ${kind}`; n.hidden = false; }
-  function hideNotice() { $('notice').hidden = true; }
+  let noticeTimeout = null;
+  function showNotice(msg, kind) {
+    const n = $('notice');
+    n.textContent = msg;
+    n.className = `notice ${kind}`;
+    n.hidden = false;
+    if (noticeTimeout) clearTimeout(noticeTimeout);
+    // Keep error/warn notices visible for 10 seconds
+    if (kind === 'error' || kind === 'warn') {
+      noticeTimeout = setTimeout(() => { n.hidden = true; noticeTimeout = null; }, 10000);
+    }
+  }
+  function hideNotice() {
+    if (noticeTimeout) { clearTimeout(noticeTimeout); noticeTimeout = null; }
+    $('notice').hidden = true;
+  }
   function setBusy(b) { document.body.classList.toggle('busy', b); }
 
   for (const id of ['picker', 'picker2', 'dirpicker']) $(id).addEventListener('change', (e) => addFiles(e.target.files));
