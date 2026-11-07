@@ -1,0 +1,67 @@
+:root{--bg:#f6f4ef;--panel:#fff;--ink:#22221f;--muted:#6b6a64;--line:#e2ded4;--accent:#2f5d50;--accent-ink:#fff;--warn:#8a5a00;--warnbg:#fff6e0;--err:#9b2c2c;--errbg:#fdecec;--radius:10px}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.6 "Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic UI",Meiryo,system-ui,sans-serif;display:flex;flex-direction:column}
+a{color:var(--accent)}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 20px;border-bottom:1px solid var(--line);background:var(--panel);flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{display:grid;place-items:center;width:34px;height:34px;border-radius:8px;background:var(--accent);color:var(--accent-ink);font-weight:700;font-family:serif;font-size:19px}
+.brand h1{margin:0;font-size:17px;letter-spacing:.04em}
+.sub{margin:0;color:var(--muted);font-size:12px}
+.privacy{margin:0;font-size:13px;color:var(--accent);background:#eaf2ef;border-radius:999px;padding:4px 12px}
+main{flex:1;display:grid;grid-template-columns:300px 1fr;min-height:0}
+main.empty{display:block}
+main.empty .side,main.empty .viewer{display:none}
+main:not(.empty) .drop{display:none}
+.drop{margin:40px auto;max-width:720px;border:2px dashed #c9c3b5;border-radius:16px;background:var(--panel);padding:56px 24px;text-align:center;outline:none}
+.drop:focus-visible,body.dragging .drop{border-color:var(--accent);background:#f0f6f3}
+body.dragging main:not(.empty){outline:3px dashed var(--accent);outline-offset:-6px}
+.drop-title{font-size:20px;font-weight:600;margin:0 0 6px}
+.drop-hint{color:var(--muted);margin:0 0 22px}
+.btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:8px;padding:8px 16px;font:inherit;cursor:pointer;margin:4px}
+.btn:hover{border-color:#bdb7a8}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.small{padding:4px 10px;font-size:13px;margin:0}
+.btn:disabled{opacity:.45;cursor:default}
+.side{border-right:1px solid var(--line);background:var(--panel);display:flex;flex-direction:column;min-height:0}
+.side-head{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:1px solid var(--line)}
+.side-actions{display:flex;gap:6px}
+.list{list-style:none;margin:0;padding:6px;overflow:auto;flex:1}
+.group{font-size:12px;color:var(--muted);padding:10px 8px 4px;word-break:break-all}
+.item{display:block;width:100%;text-align:left;border:0;background:none;border-radius:8px;padding:7px 10px;font:inherit;cursor:pointer;color:inherit}
+.item:hover{background:#f3f1ea}
+.item.active{background:#e4efea}
+.item .name{display:block;font-weight:500;word-break:break-all}
+.item .meta{display:block;font-size:11px;color:var(--muted)}
+.item.bad .name{color:var(--err)}
+.viewer{display:flex;flex-direction:column;min-width:0;min-height:0}
+.viewer-head{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 14px;border-bottom:1px solid var(--line);background:var(--panel);flex-wrap:wrap}
+.doc-meta{min-width:0;display:flex;flex-direction:column}
+.doc-meta .muted{font-size:11px;word-break:break-all}
+.viewer-actions{display:flex;gap:6px}
+.muted{color:var(--muted)}
+.notice{margin:8px 14px 0;padding:8px 12px;border-radius:8px;white-space:pre-wrap;font-size:13px}
+.notice.warn{background:var(--warnbg);color:var(--warn)}
+.notice.error{background:var(--errbg);color:var(--err)}
+#frame{flex:1;width:100%;min-height:60vh;border:0;background:#fff;margin-top:8px}
+.print-frame{position:absolute;width:0;height:0;border:0;visibility:hidden}
+.foot{padding:10px 20px;font-size:12px;color:var(--muted);border-top:1px solid var(--line);background:var(--panel)}
+.foot p{margin:2px 0}
+body.busy{cursor:progress}
+@media (max-width:760px){
+  main{grid-template-columns:1fr;grid-template-rows:auto 1fr}
+  .side{border-right:0;border-bottom:1px solid var(--line);max-height:34vh}
+  .bar{padding:8px 12px}
+  .privacy{font-size:12px}
+  #frame{min-height:70vh}
+}
+/* Ctrl+P on the app page prints only the current document frame. */
+@media print{
+  .bar,.side,.viewer-head,.notice,.foot,.drop,.print-frame{display:none!important}
+  body,main{display:block;background:#fff}
+  #frame{height:100vh;margin:0}
+}
+[hidden]{display:none!important}
+.side-head strong{font-size:13px}
+.btn{white-space:nowrap}
+@media (max-width:760px){main:not(.empty) ~ .foot{display:none}}
